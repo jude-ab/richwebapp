@@ -1,0 +1,39 @@
+.main-grid {
+    display: grid;
+    flex-wrap: wrap;
+    border: 1px solid black;
+}
+
+
+.inner-column {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.inner-grid {
+    padding: 5%;
+    text-align: center;
+    grid-template-columns: 25% 25% 25% 25%;
+    border: 1px solid black;
+    margin: 2px;
+}
+
+@media (max-width: 960px) {
+    .main-grid {
+        flex-direction: column;
+    }
+
+    .grid-cell {
+        width: 50%;
+    }
+}
+
+@media (max-width: 640px) {
+    .main-grid {
+        flex-direction: column;
+    }
+
+    .grid-cell {
+        width: 100%;
+    }
+}
