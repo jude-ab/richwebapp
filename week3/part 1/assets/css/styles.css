@@ -1,13 +1,7 @@
 .main-grid {
     display: grid;
-    flex-wrap: wrap;
     border: 1px solid black;
-}
-
-
-.inner-column {
-    display: flex;
-    flex-wrap: wrap;
+    grid-template-columns: 25% 25% 25% 25%;
 }
 
 .inner-grid {
@@ -18,22 +12,18 @@
     margin: 2px;
 }
 
+.inner-column {
+    border: 1px solid black;
+}
+
 @media (max-width: 960px) {
     .main-grid {
-        flex-direction: column;
-    }
-
-    .grid-cell {
-        width: 50%;
+        grid-template-columns: repeat(1, 2fr); 
     }
 }
 
 @media (max-width: 640px) {
     .main-grid {
-        flex-direction: column;
-    }
-
-    .grid-cell {
-        width: 100%;
+        grid-template-columns: repeat(1, 2fr); 
     }
 }
