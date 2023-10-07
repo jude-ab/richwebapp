@@ -1,12 +1,20 @@
 const notesContainer = document.getElementById("notes-container");
 const noteInput = document.getElementById("note-input");
 
+const noteColors = ["#FF5733", "#E833FF", "#33FF57", "#33B8FF", "#FF3386"];
+
+function getRandomColor() {
+    const randomIndex = Math.floor(Math.random() * noteColors.length);
+    return noteColors[randomIndex];
+}
+
 function addNote() {
     const noteText = noteInput.value.trim();
     if (noteText === "") return;
 
     const note = document.createElement("div");
     note.className = "note";
+    note.style.backgroundColor = getRandomColor(); // Set a random color for the note
 
     const noteContent = document.createElement("p");
     noteContent.textContent = noteText;

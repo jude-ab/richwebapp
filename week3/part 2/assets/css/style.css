@@ -12,7 +12,6 @@ body {
     padding: 60px;
     background-color: white;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    
 }
 
 h1 {
@@ -24,6 +23,7 @@ h1 {
     padding: 10px;
     margin: 10px 0;
     background-color: #fff;
+    display: inline-block; /* Added to make notes appear horizontally */
 }
 
 .note-actions {
