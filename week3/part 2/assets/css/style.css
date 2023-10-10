@@ -1,70 +1,71 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
+    background-color: #e7a6d44d;
 }
 
 .container {
-    max-width: 600px;
-    margin: 0 auto;
-    margin-top: 200px;
-    padding: 60px;
     background-color: white;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    max-width: 700px;
+    margin: 0 auto;
+    margin-top: 200px;
+    padding: 40px;
+    border-radius: 25px;
 }
 
-h1 {
+h2 {
     text-align: center;
 }
 
-.note {
-    border: 1px solid #ccc;
+.notes {
+    border: 1px solid black;
     padding: 10px;
     margin: 10px 0;
     background-color: #fff;
-    display: inline-block; /* Added to make notes appear horizontally */
+    border-radius: 25px;
 }
 
-.note-actions {
+.actions {
     display: flex;
-    justify-content: space-between;
 }
 
-.note-actions button {
-    background-color: #7bd6e8;
+.actions button {
+    background-color: #ad4bb6;
     color: #fff;
     border: none;
     padding: 5px 10px;
-    cursor: pointer;
 }
 
-.note-actions button.edit {
-    background-color: #c37ee3;
+.actions button.Edit {
+    background-color: #d46ed8;
+    border-radius: 25px;
+    float: right;
+    position: absolute;
+    margin-left: 5%; 
 }
 
-.note-actions button.delete {
-    background-color: #c37ee3;
+.actions button.Delete {
+    background-color: #d46ed8;
+    border-radius: 25px;
 }
 
-.note-form {
+.form {
     display: flex;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
-.note-form input[type="text"] {
+.form input[type="text"] {
     flex: 1;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid black;
+    border-radius: 10px;
 }
 
-.note-form button {
-    background-color: #e47be8;
+.form button {
+    background-color: #d46ed8;
     color: #fff;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
-    margin-left: 45%;
+    margin-left: 35%;
 }

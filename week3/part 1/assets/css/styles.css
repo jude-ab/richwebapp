@@ -19,13 +19,13 @@
 /* If window size is less than 960px: */
 @media (max-width: 960px) {
     .main-grid {
-        grid-template-columns: repeat(2, 4fr); 
+        grid-template-columns: repeat(2, 4fr); /*grid will have two columns. Each column will be 4fr*/
     }
 }
 
 /* If window size is less than 640px: */
 @media (max-width: 640px) {
     .main-grid {
-        grid-template-columns: repeat(1, 2fr); 
+        grid-template-columns: repeat(1, 2fr); /*grid will have one column. Each column will be 2fr*/
     }
 }
