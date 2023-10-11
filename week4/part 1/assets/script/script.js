@@ -1,79 +1,225 @@
-let contacts = [];
-let ascending = true;
+displayContacts();
+// preventing default server side behaviour
+const form = document.querySelector('form');
+let  change_order = true;
+form.onsubmit = (e) => {
 
-function addContact() {
-    const name = document.getElementById("name").value;
-    const mobile = document.getElementById("mobile").value;
-    const email = document.getElementById("email").value;
-
-    if (!name || !mobile || !email) {
-        document.getElementById("error").textContent = "All fields are required.";
-        return;
-    }
-
-    const namePattern = /^[A-Za-z\s]{1,20}$/;
-    const mobilePattern = /^\d{10}$/;
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-    if (!namePattern.test(name) || !mobilePattern.test(mobile) || !emailPattern.test(email)) {
-        document.getElementById("error").textContent = "Invalid input format.";
-        return;
-    }
-
-    document.getElementById("error").textContent = "";
-
-    const contact = { name, mobile, email };
-    contacts.push(contact);
-    displayContacts();
-    resetFields();
+    e.preventDefault();
 }
 
-function displayContacts() {
-    const table = document.getElementById("contacts");
-    table.innerHTML = `
-        <tr>
-            <th onclick="sortTable(0)">Name</th>
-            <th>Mobile</th>
-            <th>Email</th>
-        </tr>
-    `;
+// FUNCTION: to validate user inputs
+function formValidation() {
+
+    let errorDiv =  document.getElementById('error');
+    let contactName = document.forms['contactForm']['contact_name'].value;
+    let mobileNumber = document.forms['contactForm']['mobile_number'].value;
+    let email = document.forms['contactForm']['email'].value;
+    let regexName = /^[A-Za-z\s]*$/;
+    let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    let errorMsg = "";
+
+    if(contactName == null || contactName == "") {
+
+        errorMsg = "Error: Contact name must be filled in.";
+        errorDiv.innerHTML = errorMsg;
+        return false; 
+    }
     
-    for (let i = 0; i < contacts.length; i++) {
-        const row = table.insertRow(i + 1);
-        row.style.backgroundColor = i % 2 === 0 ? "#f2f2f2" : "";
-        row.insertCell(0).innerHTML = contacts[i].name;
-        row.insertCell(1).innerHTML = contacts[i].mobile;
-        row.insertCell(2).innerHTML = contacts[i].email;
+    if(!regexName.test(contactName)) {
+
+        errorMsg = "Error: Contact name can only contain letters and spaces.";
+        errorDiv.innerHTML = errorMsg;
+        return false; 
+
     }
+
+    if(contactName.length > 20) {
+
+        errorMsg = "Error: Name is too long.";
+        errorDiv.innerHTML = errorMsg;
+        return false;
+    }
+
+    if(mobileNumber == "" || mobileNumber == null){ // mobile number validation
+
+        errorMsg = "Error: Mobile number must filled in.";
+        errorDiv.innerHTML = errorMsg;
+        return false;
+    }
+
+    if(mobileNumber < 10) {
+
+        errorMsg = "Error: Mobile number is not valid.";
+        errorDiv.innerHTML = errorMsg;
+        return false;
+    }
+    
+    if(isNaN(mobileNumber)) { // mobile number validation
+
+        errorMsg = "Error: Mobile number must be numeric.";
+        errorDiv.innerHTML = errorMsg;
+        return false;
+    }
+
+    if(!regexEmail.test(email)) { // validation for  email 
+
+        errorMsg = "Error: Please enter a valid email address."
+        errorDiv.innerHTML = errorMsg;
+        return false;
+    }
+
+    // user input is fine and proceed to creating contact
+    createContact(contactName, mobileNumber, email);
+    errorDiv.style.visibility = "hidden";
+    form.reset();
+    return true;
+
 }
 
-function resetFields() {
-    document.getElementById("name").value = "";
-    document.getElementById("mobile").value = "";
-    document.getElementById("email").value = "";
-}
+// FUNCTION: to display person object in table form
+function displayContacts() {
 
-function sortTable(columnIndex) {
-    contacts.sort((a, b) => {
-        const valueA = a.name.toUpperCase();
-        const valueB = b.name.toUpperCase();
-        if (ascending) {
-            return valueA.localeCompare(valueB);
-        } else {
-            return valueB.localeCompare(valueA);
-        }
-    });
-    ascending = !ascending;
-    displayContacts();
-}
+    let storeContact = localStorage.getItem("storeContact"); // local storage
 
-function filterContacts() {
-    const search = document.getElementById("search").value;
-    const filteredContacts = contacts.filter(contact => contact.mobile.includes(search));
-    if (filteredContacts.length === 0) {
-        document.getElementById("noResult").style.display = "block";
+    if(storeContact == null) {
+
+        contacts = []; // holds local storage
+
     } else {
-        document.getElementById("noResult").style.display = "none";
+
+        contacts = JSON.parse(storeContact);
     }
-    displayContacts(filteredContacts);
+
+    contacts.forEach(contact => {
+
+        addContact(contact);
+    });
+
+}
+
+// FUNCTION: to populate person object with user input
+function createContact(name, number, email) {
+    let storeContact = localStorage.getItem("storeContact"); // local storage
+    let person = {};
+
+    if(storeContact == null) {
+
+        contacts = []; 
+
+    } else {
+
+        contacts = JSON.parse(storeContact);
+    }
+
+    person = {"name": name,
+            "mobile_number": number,
+            "email": email };
+
+    contacts.push(person);
+    localStorage.setItem("storeContact", JSON.stringify(contacts));
+
+    addContact(person);
+
+}
+
+// FUNCTION: Adding contacting to the table
+function addContact(contact) {
+
+    const table = document.getElementById('contact-table');  
+    let table_row = document.createElement('tr');
+    let user_name = document.createElement('td'); 
+    let user_number = document.createElement('td');
+    let user_email = document.createElement('td'); 
+
+    user_name.innerHTML = contact.name;
+    user_number.innerHTML = contact.mobile_number;
+    user_email.innerHTML = contact.email;
+
+    table_row.appendChild(user_name);
+    table_row.appendChild(user_number);
+    table_row.appendChild(user_email);
+    table.appendChild(table_row);
+
+}
+
+// FUNCTION: implents search feature to find a contact by mobile number - come back and look at this
+function mobileNumberSearch() {
+
+    let search_query = document.getElementById('search-bar').value;
+    let data = document.getElementsByTagName('tr');
+    let errorMsg = "";
+    let match_found = 0; 
+
+    // looping through the table at i = 1 because table headers is at i = 0
+    for(let i = 1; i < data.length; i++) {
+
+        if(data[i].innerHTML.includes(search_query)) { // The row exists
+
+            data[i].style.display = "";
+            match_found = 1;  // if a match is found
+            document.getElementById('noResult').style.visibility = "hidden";
+
+        }  else { //row doesnt exist 
+
+            data[i].style.display = "none"; 
+
+            if(match_found === 0) { // The row doesn't exist
+
+                errorMsg = "Error: No Result.";
+                document.getElementById('noResult').style.visibility = "visible";
+                document.getElementById('noResult').innerHTML = errorMsg;
+
+            }
+        }
+    }
+
+    match_found = 0;
+}
+
+// FUNCTION: to sort contact names in ascending/descending order onclick
+function sortContactNames() {
+
+    // https://www.w3schools.com/howto/howto_js_sort_list.asp
+    let table, table_rows, switching, i, current_row, next_row, shouldSwitch;
+    table = document.getElementById("contact-table");
+    switching = true;
+
+    while(switching) {
+        switching = false // no switching should take place until click is detected
+        table_rows = table.rows;
+
+        // looping through all rows except table headers
+        for(i = 1; i < (table_rows.length - 1); i++) {
+            shouldSwitch = false;
+
+            current_row = table_rows[i].getElementsByTagName("td")[0];
+            next_row = table_rows[i + 1].getElementsByTagName("td")[0];
+
+            if(change_order){
+
+                if(current_row.innerHTML.toLowerCase() > next_row.innerHTML.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+
+            } else {
+
+                if(current_row.innerHTML.toLowerCase() < next_row.innerHTML.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+        }
+
+        if(shouldSwitch) {
+            table_rows[i].parentNode.insertBefore(table_rows[i + 1], table_rows[i]);
+            switching =  true;
+
+        } else {
+
+            change_order = !change_order;
+            
+        }
+    }
+
 }

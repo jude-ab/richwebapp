@@ -1,36 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Phone Directory</title>
 </head>
 <body>
-    <div id="error" class="error"></div>
+
     <h1>Phone Directory</h1>
-    <div class="container">
-        
-        <input type="text" id="name" placeholder="Name">
-        <input type="text" id="mobile" placeholder="Mobile">
-        <input type="text" id="email" placeholder="Email">
-        <button onclick="addContact()">Add Contact</button>
+    <div id="form-container" class="form-container-style" onsubmit="return formValidation();">
+        <form id="contactForm" class="form-style">
+            <input type="text" name="contact_name" placeholder="Contact Name" id="cName">
+            <input type="text" name="mobile_number" placeholder="Mobile Number" id="mNumber">
+            <input type="text" name="email" placeholder="Email" id="email">
+            <input type="submit" value="Add Contact" id="add-btn">
+        </form>
     </div>
+
+    <div id="search-div" class="search-bar">
+        <label>Search contact by Mobile No:</label>
+        <input type="text" id="search-bar" onkeyup="mobileNumberSearch()">
     </div>
-        <input type="text" id="search" placeholder="Search by Mobile" onkeyup="filterContacts()">
+
+    <div id="phone-dir-table" class="table-style">
+        <br>
+        <br>
+        <h2>Contact Summary</h2>
+        <table id="contact-table">
+            <tr>
+                <th id="th-name" onclick="sortContactNames()">Name</th>
+                <th>Mobile</th>
+                <th>Email</th>
+            </tr>
+        </table>
+    </div>
+
+    <div id="error"></div>
+    <div id="noResult"></div>
     
-    </div>
-    <table id="contacts">
-        <tr>
-            <th onclick="sortTable(0)">Name</th>
-            <th>Mobile</th>
-            <th>Email</th>
-        </tr>
-    </table>
-    <div id="noResult" class="no-result">No matching contacts found.</div>
-    <script src="assets/script/script.js"></script>
+    <script src="assets/scripts/problem-1.js"></script>
 </body>
 </html>
-
-
-
-
-
-    
