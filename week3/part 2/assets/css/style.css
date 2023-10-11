@@ -1,0 +1,71 @@
+body {
+    background-color: #e7a6d44d;
+}
+
+.container {
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    max-width: 700px;
+    margin: 0 auto;
+    margin-top: 200px;
+    padding: 40px;
+    border-radius: 25px;
+}
+
+h2 {
+    text-align: center;
+}
+
+.notes {
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #fff;
+    border-radius: 25px;
+}
+
+.actions {
+    display: flex;
+}
+
+.actions button {
+    background-color: #ad4bb6;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+}
+
+.actions button.Edit {
+    background-color: #d46ed8;
+    border-radius: 25px;
+    float: right;
+    position: absolute;
+    margin-left: 5%; 
+}
+
+.actions button.Delete {
+    background-color: #d46ed8;
+    border-radius: 25px;
+}
+
+.form {
+    display: flex;
+    margin-top: 10px;
+}
+
+.form input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.form button {
+    background-color: #d46ed8;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 35%;
+}

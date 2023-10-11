@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Note Application</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Notes App</h2>
+        <div class="form">
+            <input type="text" id="note-input" placeholder="write a note...">
+        </div>
+        <div class="form">
+            <select id="colour-list" name="colours">
+                <option value="#ffffff">White</option>
+                <option value="#fff4e3">Orange</option>
+                <option value="#d8ffd6">Green</option>
+                <option value="#ebd6ff">Purple</option>
+                <option value="#ffcccb">Pink</option>
+            </select>
+        <button onclick="addNote()">Add</button>
+        </div>
+        <div id="notes-container"></div>
+    </div>
+    <script src="assets/script/notes.js"></script>
+</body>
+</html>

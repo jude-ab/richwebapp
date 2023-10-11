@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+    <title>Github User Retrieval</title>
+</head>
+
+<body>
+    <h1>Find Github User</h1>
+
+    <div id="search-div" class="search-style">
+        <label>Github Username:</label>
+        <input type="text" id="search-query" class="search-bar">
+        <button id="search-btn" onclick="searchUser()">Search</button>
+    </div>
+
+    <div id="profile-container">
+
+        <div id="user-profile">
+
+            <h3>User Profile</h3>
+            <div id="user-profile-picture">
+                <img id="profile-picture" src="assets/images/github_cat.png" alt="github cat">
+            </div>
+
+            <div id="name" class="bio-styling">Name: </div>
+
+            <div id="username" class="bio-styling">Username: </div>
+
+            <div id="email" class="bio-styling">Email: </div>
+
+            <div id="location" class="bio-styling">Location: </div>
+
+            <div id="number-of-gists" class="bio-styling">Number of Gists: </div>
+
+        </div>
+
+        <div id="repo-container" class="div-scrollbar">
+            <h3>User Repos</h3>
+            <div id="repo"></div>
+        </div>
+    </div>    
+        
+    <script src="assets/scripts/part3.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+.main-grid {
+    display: grid;
+    border: 1px solid black;
+    grid-template-columns: 25% 25% 25% 25%;
+}
+
+.inner-grid {
+    padding: 5%;
+    text-align: center;
+    grid-template-columns: 25% 25% 25% 25%;
+    border: 1px solid black;
+    margin: 2px;
+}
+
+.inner-column {
+    border: 1px solid black;
+}
+
+/* If window size is less than 960px: */
+@media (max-width: 960px) {
+    .main-grid {
+        grid-template-columns: repeat(2, 4fr); /*grid will have two columns. Each column will be 4fr*/
+    }
+}
+
+/* If window size is less than 640px: */
+@media (max-width: 640px) {
+    .main-grid {
+        grid-template-columns: repeat(1, 2fr); /*grid will have one column. Each column will be 2fr*/
+    }
+}
