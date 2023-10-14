@@ -50,19 +50,19 @@ function display_profile(user_name) {
         // if not name is returned 
         if(user_data.name === null) {
 
-            name.innerHTML = "Name: N/A";
+            name.innerHTML = "Name: not available";
         }
 
         // if no email is returned
         if(user_data.email === null) {
 
-            email.innerHTML = "Email: N/A";
+            email.innerHTML = "Email: not available";
         } 
 
         // if not location is returned
         if(user_data.location === null) {
 
-            location.innerHTML = "Location: N/A";
+            location.innerHTML = "Location: not available";
         }
     })
 }
@@ -94,27 +94,27 @@ function display_repos(user_name) {
 
         for(let i = 0; i < repos.length; i++) {
 
-            let next_user_repo = document.createElement("div");
-            let next_user_repoN = document.createElement("p");
-            let next_description = document.createElement("p");
-            next_user_repoN.innerHTML = "Name: ";
-            next_description.innerHTML = "Description: ";
-            next_user_repo.className = "repo_style";
-            next_user_repoN.insertAdjacentText('beforeend', repos[i].name);
+            let container_user_repo = document.createElement("div");
+            let repo_name = document.createElement("p");
+            let repo_description = document.createElement("p");
+            repo_name.innerHTML = "Name: ";
+            repo_description.innerHTML = "Description: ";
+            container_user_repo.className = "repo_style";
+            repo_name.insertAdjacentText('beforeend', repos[i].name);
 
             // if there is no repo description
             if(!repos[i].description) {
 
-                next_description.insertAdjacentText('beforeend', 'No repository description available');
+                repo_description.insertAdjacentText('beforeend', 'No repository description available');
 
             } else {
 
-                next_description.insertAdjacentText('beforeend', repos[i].description);
+                repo_description.insertAdjacentText('beforeend', repos[i].description);
             }
 
-            repoC.appendChild(next_user_repo);
-            next_user_repo.appendChild(next_user_repoN);
-            next_user_repo.appendChild(next_description);
+            repoC.appendChild(container_user_repo);
+            container_user_repo.appendChild(repo_name);
+            container_user_repo.appendChild(repo_description);
         }
     })
 }
