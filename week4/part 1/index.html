@@ -1,17 +1,18 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <meta charset="UTF-8" name="viewport">
+    <link rel="stylesheet" href="assets/css/style.css" content="width=device-width, initial-scale=1.0">
     <title>Phone Directory</title>
 </head>
 <body>
 
     <h1>Phone Directory</h1>
-    <div id="form-container" class="form-container-style" onsubmit="return formValidation();">
-        <form id="contactForm" class="form-style">
+    <div id="error"></div>
+    <br>
+    <div id="form_container" class="form_container_style" onsubmit="return Validation();">
+        <form id="contact_form" class="form_style">
             <input type="text" name="contact_name" placeholder="Contact Name" id="cName">
             <input type="text" name="mobile_number" placeholder="Mobile Number" id="mNumber">
             <input type="text" name="email" placeholder="Email" id="email">
@@ -19,27 +20,36 @@
         </form>
     </div>
 
-    <div id="search-div" class="search-bar">
+    <div id="search_div" class="search_bar">
         <label>Search contact by Mobile No:</label>
-        <input type="text" id="search-bar" onkeyup="mobileNumberSearch()">
+        <input type="text" id="search_bar" onkeyup="mobileSearch()">
     </div>
 
-    <div id="phone-dir-table" class="table-style">
+    <div id="contact_summary_table" class="table_style">
         <br>
         <br>
-        <h2>Contact Summary</h2>
-        <table id="contact-table">
+        <br>
+        <h2>Contacts Summary</h2>
+        <table id="contacts_table">
             <tr>
-                <th id="th-name" onclick="sortContactNames()">Name</th>
+                <th id="row-name" onclick="sortNames()">Name</th>
                 <th>Mobile</th>
                 <th>Email</th>
             </tr>
         </table>
     </div>
 
-    <div id="error"></div>
+    <br>
     <div id="noResult"></div>
     
-    <script src="assets/scripts/problem-1.js"></script>
+    <script src="assets/script/script.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+    
+
