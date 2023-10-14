@@ -1,17 +1,17 @@
-//FUNCTION: TO SEARCH GITHUB API FOR USERNAME THAT IS ENTERED
-function searchUser() {
+//FUNCTION: TO SEARCH GITHUB API FOR USER_NAME THAT IS ENTERED
+function find_user() {
     
-    const search_input = document.getElementById("search-query");
-    let username = document.getElementById('search-query').value;
+    const user_input = document.getElementById("user_search");
+    let user_name = document.getElementById('user_search').value;
 
-    // if no username is entered
-    if(!username) {
-        alert("ERROR! Please enter a username to search for!");
+    // if no user_name is entered
+    if(!user_name) {
+        alert("error! Please enter a user_name to search for!");
     }
 
-    search_input.value = ""; //resetting input field to be empty once search
+    user_input.value = ""; //resetting input field to be empty once search
     
-    let request = fetch(`https://api.github.com/users/${username}`);
+    let request = fetch(`https://api.github.com/users/${user_name}`);
 
     request.then(response => {
 
@@ -20,44 +20,44 @@ function searchUser() {
         //if the request has a status code of 200 - 299
         if(response.ok) {
 
-            displayUserProfile(username);
-            displayUserRepos(username);
+            display_profile(user_name);
+            display_repos(user_name);
         }
     })
 }
 
 // FUNCTION: TO DISPLAY USER INFORMATION
-function displayUserProfile(username) {
+function display_profile(user_name) {
 
-    let profile_picture = document.getElementById('profile-picture');
+    let pfp = document.getElementById('profile-picture');
     let name = document.getElementById('name');
-    let git_username = document.getElementById('username');
-    let email = document.getElementById('email');
-    let location = document.getElementById('location');
-    let num_gists = document.getElementById('number-of-gists');
+    let git_name = document.getElementById('username');
+    let email = document.getElementById('user_email');
+    let location = document.getElementById('user_location');
+    let gists_number = document.getElementById('gists');
     
-    let request = fetch(`https://api.github.com/users/${username}`);
+    let request = fetch(`https://api.github.com/users/${user_name}`);
 
     request.then(response => response.json()) 
     .then(user_data => {
 
-        profile_picture.src = user_data.avatar_url;
+        pfp.src = user_data.avatar_url;
         name.innerHTML = "Name: " + user_data.name;
-        git_username.innerHTML = "Username: " + user_data.login;
+        git_name.innerHTML = "User name: " + user_data.login;
         location.innerHTML = "Location: " + user_data.location;
-        num_gists.innerHTML = "Number of Gists: " + user_data.public_gists;
-
-        // if no email is returned
-        if(user_data.email === null) {
-
-            email.innerHTML = "Email: N/A";
-        } 
+        gists_number.innerHTML = "Number of Gists: " + user_data.public_gists;
 
         // if not name is returned 
         if(user_data.name === null) {
 
             name.innerHTML = "Name: N/A";
         }
+
+        // if no email is returned
+        if(user_data.email === null) {
+
+            email.innerHTML = "Email: N/A";
+        } 
 
         // if not location is returned
         if(user_data.location === null) {
@@ -68,17 +68,17 @@ function displayUserProfile(username) {
 }
 
 //FUNCTION: TO DISPLAY USER REPO INFORMATION
-function displayUserRepos(username) {
+function display_repos(user_name) {
 
-    let repo_conatiner = document.getElementById('repo');
+    let repoC = document.getElementById('repo');
 
     // clearing previous fetch data
-    while(repo_conatiner.firstChild) {
+    while(repoC.firstChild) {
 
-        repo_conatiner.firstChild.remove();
+        repoC.firstChild.remove();
     }
 
-    let request = fetch(`https://api.github.com/users/${username}/repos`);
+    let request = fetch(`https://api.github.com/users/${user_name}/repos`);
     
     request.then(response => response.json())
     .then(repos => {
@@ -87,34 +87,34 @@ function displayUserRepos(username) {
         // if there are more than 5 repos make the scroll bar visible
         if(repos.length > 5) {
 
-            let user_repo_container = document.getElementById('repo_container');
-            user_repo_container.className = "scroll_bar";
-            user_repo_container.style.overflow = "auto";
+            let user_repo = document.getElementById('repo_container');
+            user_repo.className = "scroll_bar";
+            user_repo.style.overflow = "auto";
         }
 
         for(let i = 0; i < repos.length; i++) {
 
-            let next_repo_container = document.createElement("div");
-            let next_repo_name = document.createElement("p");
-            let next_repo_desc = document.createElement("p");
-            next_repo_name.innerHTML = "Name: ";
-            next_repo_desc.innerHTML = "Description: ";
-            next_repo_container.className = "repo_style";
-            next_repo_name.insertAdjacentText('beforeend', repos[i].name);
+            let next_user_repo = document.createElement("div");
+            let next_user_repoN = document.createElement("p");
+            let next_description = document.createElement("p");
+            next_user_repoN.innerHTML = "Name: ";
+            next_description.innerHTML = "Description: ";
+            next_user_repo.className = "repo_style";
+            next_user_repoN.insertAdjacentText('beforeend', repos[i].name);
 
             // if there is no repo description
             if(!repos[i].description) {
 
-                next_repo_desc.insertAdjacentText('beforeend', 'No repository description available');
+                next_description.insertAdjacentText('beforeend', 'No repository description available');
 
             } else {
 
-                next_repo_desc.insertAdjacentText('beforeend', repos[i].description);
+                next_description.insertAdjacentText('beforeend', repos[i].description);
             }
 
-            repo_conatiner.appendChild(next_repo_container);
-            next_repo_container.appendChild(next_repo_name);
-            next_repo_container.appendChild(next_repo_desc);
+            repoC.appendChild(next_user_repo);
+            next_user_repo.appendChild(next_user_repoN);
+            next_user_repo.appendChild(next_description);
         }
     })
 }

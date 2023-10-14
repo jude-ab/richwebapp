@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8" name="viewport">
     <link rel="stylesheet" href="Assets/css/style.css" content="width=device-width, initial-scale=1.0">
+    <title>Github Search</title>
 </head>
 
 <body>
     <div id="search-div" class="search-style">
-        <input type="text" id="search-query" class="search-bar" placeholder="Username">
-        <button id="search-btn" onclick="searchUser()">Search</button>
+        <input type="text" id="user_search" class="search-bar" placeholder="Username">
+        <button id="search-btn" onclick="find_user()">Search</button>
     </div>
-        
+
         <div id="user_profile">
             <h3>User Profile</h3> 
             <div id="user_picture">
                 <img id="profile-picture" src="Assets/images/box.png" alt="box with X symbol">
             </div>
             <div id="name" class="profile_css">Name</div>
-            <div id="username" class="profile_css">Username</div>
-            <div id="email" class="profile_css">Email</div>
-            <div id="location" class="profile_css">Location</div>
-            <div id="number-of-gists" class="profile_css">Number of Gists</div>
+            <div id="username" class="profile_css">User name</div>
+            <div id="user_email" class="profile_css">Email</div>
+            <div id="user_location" class="profile_css">Location</div>
+            <div id="gists" class="profile_css">Number of Gists</div>
         </div>  
 
     <div id="repo_container" class="scroll_bar">  
