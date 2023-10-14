@@ -6,7 +6,7 @@ function searchUser() {
 
     // if no username is entered
     if(!username) {
-        alert("ERROR: USERNAME MUST BE ENTERED IN ORDER TO SEARCH GITHUB");
+        alert("ERROR! Please enter a username to search for!");
     }
 
     search_input.value = ""; //resetting input field to be empty once search
@@ -87,8 +87,8 @@ function displayUserRepos(username) {
         // if there are more than 5 repos make the scroll bar visible
         if(repos.length > 5) {
 
-            let user_repo_container = document.getElementById('repo-container');
-            user_repo_container.className = "div-scrollbar";
+            let user_repo_container = document.getElementById('repo_container');
+            user_repo_container.className = "scroll_bar";
             user_repo_container.style.overflow = "auto";
         }
 
@@ -99,7 +99,7 @@ function displayUserRepos(username) {
             let next_repo_desc = document.createElement("p");
             next_repo_name.innerHTML = "Name: ";
             next_repo_desc.innerHTML = "Description: ";
-            next_repo_container.className = "next-repo-style";
+            next_repo_container.className = "repo_style";
             next_repo_name.insertAdjacentText('beforeend', repos[i].name);
 
             // if there is no repo description

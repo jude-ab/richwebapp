@@ -1,50 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
-    <title>Github User Retrieval</title>
+    <meta charset="UTF-8" name="viewport">
+    <link rel="stylesheet" href="Assets/css/style.css" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-    <h1>Find Github User</h1>
-
     <div id="search-div" class="search-style">
-        <label>Github Username:</label>
-        <input type="text" id="search-query" class="search-bar">
+        <input type="text" id="search-query" class="search-bar" placeholder="Username">
         <button id="search-btn" onclick="searchUser()">Search</button>
     </div>
-
-    <div id="profile-container">
-
-        <div id="user-profile">
-
-            <h3>User Profile</h3>
-            <div id="user-profile-picture">
-                <img id="profile-picture" src="assets/images/github_cat.png" alt="github cat">
-            </div>
-
-            <div id="name" class="bio-styling">Name: </div>
-
-            <div id="username" class="bio-styling">Username: </div>
-
-            <div id="email" class="bio-styling">Email: </div>
-
-            <div id="location" class="bio-styling">Location: </div>
-
-            <div id="number-of-gists" class="bio-styling">Number of Gists: </div>
-
-        </div>
-
-        <div id="repo-container" class="div-scrollbar">
-            <h3>User Repos</h3>
-            <div id="repo"></div>
-        </div>
-    </div>    
         
-    <script src="assets/scripts/part3.js"></script>
+        <div id="user_profile">
+            <h3>User Profile</h3> 
+            <div id="user_picture">
+                <img id="profile-picture" src="Assets/images/box.png" alt="box with X symbol">
+            </div>
+            <div id="name" class="profile_css">Name</div>
+            <div id="username" class="profile_css">Username</div>
+            <div id="email" class="profile_css">Email</div>
+            <div id="location" class="profile_css">Location</div>
+            <div id="number-of-gists" class="profile_css">Number of Gists</div>
+        </div>  
+
+    <div id="repo_container" class="scroll_bar">  
+    <h3>User Repos</h3>
+        <div id="repo"></div>
+    </div>
+
+    <script src="Assets/scripts/part3.js"></script>
 </body>
 </html>
