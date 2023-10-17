@@ -3,14 +3,14 @@
 display_contacts();
 
 const form = document.querySelector('form'); 
-let  change_order = true; 
+let  order = true; 
 form.onsubmit = (e) => {
 
     e.preventDefault(); //preventing page from refreshing
 }
 
 //function to populate table with contacts
-function createContact(name, mobile, email) {
+function create_contact(name, mobile, email) {
     let store_contact = localStorage.getItem("store_contact"); //getting contacts from local storage
     let user = {};
 
@@ -61,40 +61,68 @@ function display_contacts() {
 function Validation() {
 
     let contact_n = document.forms['contact_form']['contact_name'].value;
-    let mobile_n = document.forms['contact_form']['mobile_number'].value;
-    let email = document.forms['contact_form']['email'].value;
+    let mobile_n = document.forms['contact_form']['contact_number'].value;
+    let email = document.forms['contact_form']['contact_email'].value;
     let regex_name = /^[A-Za-z\s]*$/;
     let regex_email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     let error_div = document.getElementById('error');
+    let error_message = "";
 
-    let isValid = true;
+    if(contact_n == null || contact_n == "") {
 
-    // Validation for user email
-    if (!regex_email.test(email)) {
-        alert("Email address is invalid!");
-        isValid = false;
+        error_message = "Error! Contact name can not be empty!.";
+        error_div.innerHTML = error_message;
+        return false; 
+    }
+    
+    if(!regex_name.test(contact_n)) {
+
+        error_message = "Error! Contact name can only contain letters and spaces!";
+        error_div.innerHTML = error_message;
+        return false; 
+
     }
 
-    // Validation for user mobile number
-    if (!/^\d+$/.test(mobile_n) || mobile_n.length < 10) {
-        alert("Mobile number is invalid. It must contain at least 10 digits.");
-        isValid = false;
+    if(contact_n.length > 20) {
+
+        error_message = "Error! Contact name is too long!";
+        error_div.innerHTML = error_message;
+        return false;
     }
 
-    // Validation for user name
-    if (!contact_n || !regex_name.test(contact_n) || contact_n.length > 20) {
-        alert("Contact name is invalid. It can only contain letters and spaces and should be between 1 and 20 characters.");
-        isValid = false;
+    if(mobile_n == "" || mobile_n == null){ // mobile number validation
+
+        error_message = "Error! Mobile number can not be empty!";
+        error_div.innerHTML = error_message;
+        return false;
     }
 
-    // Creating contact if all validations are passed
-    if (isValid) {
-        createContact(contact_n, mobile_n, email);
-        error_div.style.visibility = "hidden";
-        document.forms['contact_form'].reset();
+    if(mobile_n < 10) {
+
+        error_message = "Error! Mobile number can not contain less than 10 numbers!";
+        error_div.innerHTML = error_message;
+        return false;
+    }
+    
+    if(isNaN(mobile_n)) { // mobile number validation
+
+        error_message = "Error! Mobile number must contain only numbers!";
+        error_div.innerHTML = error_message;
+        return false;
     }
 
-    return isValid;
+    if(!regex_email.test(email)) { // validation for  email 
+
+        error_message = "Error! Email address invalid!"
+        error_div.innerHTML = error_message;
+        return false;
+    }
+
+    // user input is fine and proceed to creating contact
+    create_contact(contact_n, mobile_n, email);
+    error_div.style.visibility = "hidden";
+    form.reset();
+    return true;
 }
 
 
@@ -102,21 +130,21 @@ function Validation() {
 function addContact(contact) {
 
     const table = document.getElementById('contacts_table');  //getting table from html
-    let table_row = document.createElement('tr');
-    let user_name = document.createElement('td'); 
-    let user_mobile = document.createElement('td');
-    let user_email = document.createElement('td'); 
+    let row = document.createElement('tr');
+    let contact_name = document.createElement('td'); 
+    let contact_mobile = document.createElement('td');
+    let contact_email = document.createElement('td'); 
 
     //getting contact info from local storage
-    user_name.innerHTML = contact.name; 
-    user_mobile.innerHTML = contact.mobile_number;
-    user_email.innerHTML = contact.email;
+    contact_name.innerHTML = contact.name; 
+    contact_mobile.innerHTML = contact.mobile_number;
+    contact_email.innerHTML = contact.email;
 
     //appending contact details to the table
-    table_row.appendChild(user_name); 
-    table_row.appendChild(user_mobile); 
-    table_row.appendChild(user_email); 
-    table.appendChild(table_row); 
+    row.appendChild(contact_name); 
+    row.appendChild(contact_mobile); 
+    row.appendChild(contact_email); 
+    table.appendChild(row); 
 
 }
 
@@ -125,24 +153,24 @@ function sortNames() {
 
     //https://www.w3schools.com/howto/howto_js_sort_list.asp
     //https://codereview.stackexchange.com/questions/268091/sort-table-with-ascending-or-descending-order-without-a-library
-    let table, table_rows, switching, i, current_row, next_row, shouldSwitch;
+    let table, t_rows, switching, i, current_row, next_row, shouldSwitch;
     table = document.getElementById("contacts_table");
     switching = true;
 
     while(switching) {
         switching = false; //no switching has been done
-        table_rows = table.rows;
+        t_rows = table.rows;
 
         //looping through the table at i = 1 because table headers is at i = 0
         //comparing the current row with the next row
-        for(i = 1; i < (table_rows.length - 1); i++) {
+        for(i = 1; i < (t_rows.length - 1); i++) {
             shouldSwitch = false;
 
             //getting the first cell of the current row and the next row 
-            current_row = table_rows[i].getElementsByTagName("td")[0]; 
-            next_row = table_rows[i + 1].getElementsByTagName("td")[0]; 
+            current_row = t_rows[i].getElementsByTagName("td")[0]; 
+            next_row = t_rows[i + 1].getElementsByTagName("td")[0]; 
 
-            if(change_order){ //sorting in ascending order
+            if(order){ //sorting in ascending order
 
                 if(current_row.innerHTML.toLowerCase() > next_row.innerHTML.toLowerCase()) {
                     shouldSwitch = true;
@@ -160,12 +188,12 @@ function sortNames() {
 
         //if switching is true, switch the rows
         if(shouldSwitch) {
-            table_rows[i].parentNode.insertBefore(table_rows[i + 1], table_rows[i]);
+            t_rows[i].parentNode.insertBefore(t_rows[i + 1], t_rows[i]);
             switching =  true;
 
         } else {
 
-            change_order = !change_order;
+            order = !order;
             
         }
     }
@@ -176,23 +204,23 @@ function sortNames() {
 function mobileSearch() {
 
     let search = document.getElementById('search_bar').value; //getting search input from user
-    let user_data = document.getElementsByTagName('tr'); //getting table rows from html
+    let contact_data = document.getElementsByTagName('tr'); //getting table rows from html
     let error_message = "";
     let user_found = 0; 
 
     // looping through the table at i = 1 because table headers is at i = 0
-    for(let i = 1; i < user_data.length; i++) {
+    for(let i = 1; i < contact_data.length; i++) {
 
         //checking if the search input matches any of the table rows
-        if(user_data[i].innerHTML.includes(search)) { 
+        if(contact_data[i].innerHTML.includes(search)) { 
 
-            user_data[i].style.display = "";
+            contact_data[i].style.display = "";
             user_found = 1; //row exists
             document.getElementById('noResult').style.visibility = "hidden";
 
         }  else { //if the search input doesn't match any of the table rows 
 
-            user_data[i].style.display = "none"; 
+            contact_data[i].style.display = "none"; 
 
             if(user_found === 0) { //if no row exists
 
