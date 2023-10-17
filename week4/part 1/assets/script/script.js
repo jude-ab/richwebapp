@@ -65,72 +65,38 @@ function Validation() {
     let email = document.forms['contact_form']['email'].value;
     let regex_name = /^[A-Za-z\s]*$/;
     let regex_email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    let error_div =  document.getElementById('error');
-    let error_message = "";
+    let error_div = document.getElementById('error');
 
-    //validation for user email
-    if(!regex_email.test(email)) {
+    let isValid = true;
 
-        error_message = "Email address invalid!"
-        error_div.innerHTML = error_message;
-        return false;
+    // Validation for user email
+    if (!regex_email.test(email)) {
+        alert("Email address is invalid!");
+        isValid = false;
     }
 
-    //validation for user mobile number
-    if(isNaN(mobile_n)) { 
-
-        error_message = "Mobile number must include numbers!";
-        error_div.innerHTML = error_message;
-        return false;
+    // Validation for user mobile number
+    if (!/^\d+$/.test(mobile_n) || mobile_n.length < 10) {
+        alert("Mobile number is invalid. It must contain at least 10 digits.");
+        isValid = false;
     }
 
-    //validation for user name    
-    if(contact_n == null || contact_n == "") {
-
-        error_message = "Contact name must be filled in!";
-        error_div.innerHTML = error_message;
-        return false; 
-    }
-    
-    //validation for user name
-    if(!regex_name.test(contact_n)) {
-
-        error_message = "Contact name can only contain letters and spaces!";
-        error_div.innerHTML = error_message;
-        return false; 
-
+    // Validation for user name
+    if (!contact_n || !regex_name.test(contact_n) || contact_n.length > 20) {
+        alert("Contact name is invalid. It can only contain letters and spaces and should be between 1 and 20 characters.");
+        isValid = false;
     }
 
-    //validation for user name
-    if(contact_n.length > 20) {
-
-        error_message = "Name is too long!";
-        error_div.innerHTML = error_message;
-        return false;
+    // Creating contact if all validations are passed
+    if (isValid) {
+        createContact(contact_n, mobile_n, email);
+        error_div.style.visibility = "hidden";
+        document.forms['contact_form'].reset();
     }
 
-    //validation for user mobile number
-    if(mobile_n == "" || mobile_n == null){ 
-        error_message = "Mobile number must filled in!";
-        error_div.innerHTML = error_message;
-        return false;
-    }
-
-    //validation for user mobile number
-    if(mobile_n < 10) {
-
-        error_message = "Mobile number is invalid!";
-        error_div.innerHTML = error_message;
-        return false;
-    }
-    
-    //creating contact if all validations are passed
-    createContact(contact_n, mobile_n, email);
-    error_div.style.visibility = "hidden";
-    form.reset();
-    return true;
-
+    return isValid;
 }
+
 
 //function to add contact to the table
 function addContact(contact) {
