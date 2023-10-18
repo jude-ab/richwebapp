@@ -50,7 +50,7 @@ function display_profile(user_name) {
         //Display user information
         pfp.src = user_data.avatar_url;
         name.innerHTML = "Name: " + (user_data.name ? user_data.name : "Name is not available"); //if name is not available display a message
-        git_name.innerHTML = "git_name: " + user_data.login;
+        git_name.innerHTML = "User Name: " + user_data.login;
         location.innerHTML = "Location: " + (user_data.location ? user_data.location : "Location is not available");
         gists_number.innerHTML = "Number of Gists: " + user_data.public_gists;
 
