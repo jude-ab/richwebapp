@@ -22,8 +22,6 @@
     margin-left: 30%;
 }
 
-#search-btn:hover {background-color: #e7e7e7;}
-
 #user_profile {
     border: 1px solid black;
     width: 25%;
@@ -62,9 +60,7 @@
 
 .repo_style {
 
-    border: 1px solid black;
-    border-left: none;
-    border-right: none;
+    border: 1px solid black;  
     width: auto;
     padding: 8px;
 

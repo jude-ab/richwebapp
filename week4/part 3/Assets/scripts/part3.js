@@ -4,12 +4,12 @@ function find_user() {
     const user_input = document.getElementById("user_search");
     let user_name = document.getElementById('user_search').value;
 
-    // if no user_name is entered
+    // if search input is empty
     if(!user_name) {
         alert("error! Please enter a user name to search for!");
     }
 
-    user_input.value = ""; //resetting input field to be empty once search
+    user_input.value = ""; //resetting input field to be empty after search
     
     let request = fetch(`https://api.github.com/users/${user_name}`);
 
@@ -49,7 +49,7 @@ function display_profile(user_name) {
 
         //Display user information
         pfp.src = user_data.avatar_url;
-        name.innerHTML = "Name: " + (user_data.name ? user_data.name : "Name is not available");
+        name.innerHTML = "Name: " + (user_data.name ? user_data.name : "Name is not available"); //if name is not available display a message
         git_name.innerHTML = "git_name: " + user_data.login;
         location.innerHTML = "Location: " + (user_data.location ? user_data.location : "Location is not available");
         gists_number.innerHTML = "Number of Gists: " + user_data.public_gists;

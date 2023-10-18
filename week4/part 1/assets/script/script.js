@@ -27,7 +27,7 @@ function create_contact(name, mobile, email) {
 
 //function to display contacts from local storage onto the page
 function display_contacts() {
-    let stored_contacts = localStorage.getItem("store_contact") || "[]"; 
+    let stored_contacts = localStorage.getItem("store_contact") || "[]"; // Get contacts from local storage
     let contacts = JSON.parse(stored_contacts);
 
     contacts.forEach(contact => {
@@ -47,6 +47,7 @@ function Validation() {
     let error_div = document.getElementById('error');
     let error_message = "";
 
+    //validation for contact name. Contact name can not be empty
     if(contact_n == null || contact_n == "") {
 
         error_message = "Error! Contact name can not be empty!.";
@@ -54,6 +55,7 @@ function Validation() {
         return false; 
     }
     
+    //validation for contact name. Contact name can only contain letters and spaces
     if(!name_r.test(contact_n)) {
 
         error_message = "Error! Contact name can only contain letters and spaces!";
@@ -61,7 +63,8 @@ function Validation() {
         return false; 
 
     }
-              
+
+    //validation for contact name. Contact name can not contain more than 20 characters          
     if(contact_n.length > 20) {
 
         error_message = "Error! Contact name is too long!";
@@ -69,6 +72,7 @@ function Validation() {
         return false;
     }
 
+    //validation for mobile number. Mobile number can not be empty
     if(mobile_n == "" || mobile_n == null){ // mobile number validation
 
         error_message = "Error! Mobile number can not be empty!";
@@ -76,6 +80,7 @@ function Validation() {
         return false;
     }
 
+    //validation for mobile number. Mobile number can not contain less than 10 numbers
     if(mobile_n < 10) {
 
         error_message = "Error! Mobile number can not contain less than 10 numbers!";
@@ -83,21 +88,23 @@ function Validation() {
         return false;
     }
     
-    if(isNaN(mobile_n)) { // mobile number validation
+    //validation for mobile number. Mobile number can only contain numbers
+    if(isNaN(mobile_n)) { 
 
         error_message = "Error! Mobile number must contain only numbers!";
         error_div.innerHTML = error_message;
         return false;
     }
 
-    if(!email_r.test(email)) { // validation for  email 
+    //validation for email. Email can not be empty
+    if(!email_r.test(email)) {
 
         error_message = "Error! Email address invalid!"
         error_div.innerHTML = error_message;
         return false;
     }
 
-    // user input is fine and proceed to creating contact
+    //calling function to create contact object and store it in local storage. 
     create_contact(contact_n, mobile_n, email);
     error_div.style.visibility = "hidden";
     form.reset();

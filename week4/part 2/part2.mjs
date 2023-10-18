@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-// Function to process data for part 1
+// Function to process data for post titles
 const post_titles = (posts) => {
     const title_length = posts.filter(post => titleLength(post.title));
     const titles = title_length.map(post => post.title);
@@ -8,13 +8,13 @@ const post_titles = (posts) => {
     console.log(titles);
 };
 
-// Part 1: List all post titles with more than six words
+//List all post titles with more than six words
 const titleLength = (titles) => {
     const word = titles.split(' '); // Split on whitespace
     return word.length > 6;
 };
 
-// Function to process data for part 2
+//Function to process data word frequency map
 const wordMap = (posts) => {
     const body_content = posts.map(post => post.body);
     // Join all the body contents into one string, convert to lowercase, and 
@@ -39,7 +39,7 @@ const wordMap = (posts) => {
 
 //fetch data from the given URL and log the results.
 const fetchData = () => {
-    fetch('http://jsonplaceholder.typicode.com/posts')
+    fetch('http://jsonplaceholder.typicode.com/posts/')
         .then(response => response.json())
         .then(posts => {
             post_titles(posts);
