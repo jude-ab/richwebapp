@@ -1,4 +1,4 @@
-//FUNCTION: TO SEARCH GITHUB API FOR USER_NAME THAT IS ENTERED
+//function to search for username
 function find_user() {
     
     const user_input = document.getElementById("user_search");
@@ -6,7 +6,7 @@ function find_user() {
 
     // if no user_name is entered
     if(!user_name) {
-        alert("error! Please enter a user_name to search for!");
+        alert("error! Please enter a user name to search for!");
     }
 
     user_input.value = ""; //resetting input field to be empty once search
@@ -17,16 +17,19 @@ function find_user() {
 
         console.log(response.json());
 
-        //if the request has a status code of 200 - 299
+        //if the request was successful. If not, display error message
         if(response.ok) {
 
             display_profile(user_name);
             display_repos(user_name);
         }
+        else {
+            alert("Error! Please enter a valid user name to search for!");
+        }
     })
 }
 
-// FUNCTION: TO DISPLAY USER INFORMATION
+//function to display user profile
 function display_profile(user_name) {
 
     let pfp = document.getElementById('profile-picture');
@@ -35,55 +38,48 @@ function display_profile(user_name) {
     let email = document.getElementById('user_email');
     let location = document.getElementById('user_location');
     let gists_number = document.getElementById('gists');
-    
-    let request = fetch(`https://api.github.com/users/${user_name}`);
 
-    request.then(response => response.json()) 
+    let github_api = `https://api.github.com/users/${user_name}`;
+    
+    let github_request = fetch(github_api);
+
+    //fetching user information
+    github_request.then(response => response.json())
     .then(user_data => {
 
+        //Display user information
         pfp.src = user_data.avatar_url;
-        name.innerHTML = "Name: " + user_data.name;
-        git_name.innerHTML = "User name: " + user_data.login;
-        location.innerHTML = "Location: " + user_data.location;
+        name.innerHTML = "Name: " + (user_data.name ? user_data.name : "Name is not available");
+        git_name.innerHTML = "git_name: " + user_data.login;
+        location.innerHTML = "Location: " + (user_data.location ? user_data.location : "Location is not available");
         gists_number.innerHTML = "Number of Gists: " + user_data.public_gists;
 
-        // if not name is returned 
-        if(user_data.name === null) {
-
-            name.innerHTML = "Name: not available";
+        //Display a message if email is not available
+        if (!user_data.email) {
+            email.innerHTML = "Email is not available";
         }
-
-        // if no email is returned
-        if(user_data.email === null) {
-
-            email.innerHTML = "Email: not available";
-        } 
-
-        // if not location is returned
-        if(user_data.location === null) {
-
-            location.innerHTML = "Location: not available";
-        }
-    })
+    });
 }
 
-//FUNCTION: TO DISPLAY USER REPO INFORMATION
+//function to display user repos
 function display_repos(user_name) {
 
-    let repoC = document.getElementById('repo');
+    const repoC = document.getElementById('repo');
 
-    // clearing previous fetch data
-    while(repoC.firstChild) {
-
+    //Clear previous fetch data
+    while (repoC.firstChild) {
         repoC.firstChild.remove();
     }
 
-    let request = fetch(`https://api.github.com/users/${user_name}/repos`);
-    
-    request.then(response => response.json())
-    .then(repos => {
+    let  github_api = `https://api.github.com/users/${user_name}/repos`;
 
-        console.log(repos)
+    //fetching user repos
+    fetch(github_api)
+        .then(response => response.json())
+        .then(repos => {
+            console.log(repos);
+
+   
         // if there are more than 5 repos make the scroll bar visible
         if(repos.length > 5) {
 
@@ -92,6 +88,7 @@ function display_repos(user_name) {
             user_repo.style.overflow = "auto";
         }
 
+        //Display user repos
         for(let i = 0; i < repos.length; i++) {
 
             let container_user_repo = document.createElement("div");
@@ -102,16 +99,17 @@ function display_repos(user_name) {
             container_user_repo.className = "repo_style";
             repo_name.insertAdjacentText('beforeend', repos[i].name);
 
-            // if there is no repo description
+            //if there is no repo description
             if(!repos[i].description) {
 
-                repo_description.insertAdjacentText('beforeend', 'No repository description available');
+                repo_description.insertAdjacentText('beforeend', 'No description available');
 
-            } else {
+            } else { 
 
                 repo_description.insertAdjacentText('beforeend', repos[i].description);
             }
 
+            //appending user repos to the container
             repoC.appendChild(container_user_repo);
             container_user_repo.appendChild(repo_name);
             container_user_repo.appendChild(repo_description);

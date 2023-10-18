@@ -1,14 +1,14 @@
-
-h3 {
-    text-align: left;
-    margin-left: 3%;
-   
-}
-
 .search-bar {
     width: 50%;
     padding: 8px 20px;
     margin: 8px 0;
+}
+
+#profile-picture {
+
+    width: 300px;
+    height: 200px;
+
 }
 
 #search-btn {
@@ -49,6 +49,7 @@ h3 {
     border: 3px solid black;
     width: 30%;
     margin: 3%;
+    overflow: scroll;
 }
 
 .profile_css {
@@ -59,13 +60,6 @@ h3 {
     border-right: none;
 }
 
-#profile-picture {
-
-    width: 300px;
-    height: 200px;
-
-}
-
 .repo_style {
 
     border: 1px solid black;
@@ -74,4 +68,10 @@ h3 {
     width: auto;
     padding: 8px;
 
+}
+
+h3 {
+    text-align: left;
+    margin-left: 3%;
+   
 }

@@ -1,61 +1,40 @@
 
 //calling function to display contacts from local storage onto the page
-display_contacts();
+display_contacts(); 
 
 const form = document.querySelector('form'); 
-let  order = true; 
+let  asc_order = true; 
 form.onsubmit = (e) => {
-
     e.preventDefault(); //preventing page from refreshing
 }
 
-//function to populate table with contacts
+//function to create contact object and store it in local storage
 function create_contact(name, mobile, email) {
-    let store_contact = localStorage.getItem("store_contact"); //getting contacts from local storage
-    let user = {};
+    let stored_contacts = localStorage.getItem("store_contact") || "[]"; // Get contacts from local storage
+    let contacts = JSON.parse(stored_contacts);
 
-    if(store_contact == null) {
-
-        contacts = []; //initializing contacts if local storage is empty
-
-    } 
-    else {
-
-        contacts = JSON.parse(store_contact);
-    }
-
-    user = {  
-            "name": name,
-            "mobile_number": mobile,
-            "email": email 
-        };
+    const user = {
+        "name": name,
+        "mobile_number": mobile,
+        "email": email
+    };
 
     contacts.push(user);
-    localStorage.setItem("store_contact", JSON.stringify(contacts));
+    localStorage.setItem("store_contact", JSON.stringify(contacts)); // Add the contact to local storage
 
-    addContact(user); //calling function to add contact to the table
+    addContact(user); // Add the contact to the table
 }
 
-//function to display contacts from local storage to the table on the contact
+//function to display contacts from local storage onto the page
 function display_contacts() {
-
-    let store_contact = localStorage.getItem("store_contact"); //getting contacts from local storage
-
-    if(store_contact == null) {
-
-        contacts = []; //initializing contacts if local storage is empty
-
-    } else {
-
-        contacts = JSON.parse(store_contact); //parsing contacts from local storage
-    }
+    let stored_contacts = localStorage.getItem("store_contact") || "[]"; 
+    let contacts = JSON.parse(stored_contacts);
 
     contacts.forEach(contact => {
-
-        addContact(contact); //calling function to add each contact to the table
+        addContact(contact); //Add the contact to the table
     });
-
 }
+
 
 //function to validate user input
 function Validation() {
@@ -63,8 +42,8 @@ function Validation() {
     let contact_n = document.forms['contact_form']['contact_name'].value;
     let mobile_n = document.forms['contact_form']['contact_number'].value;
     let email = document.forms['contact_form']['contact_email'].value;
-    let regex_name = /^[A-Za-z\s]*$/;
-    let regex_email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    let name_r = /^[A-Za-z\s]*$/;
+    let email_r = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     let error_div = document.getElementById('error');
     let error_message = "";
 
@@ -75,14 +54,14 @@ function Validation() {
         return false; 
     }
     
-    if(!regex_name.test(contact_n)) {
+    if(!name_r.test(contact_n)) {
 
         error_message = "Error! Contact name can only contain letters and spaces!";
         error_div.innerHTML = error_message;
         return false; 
 
     }
-
+              
     if(contact_n.length > 20) {
 
         error_message = "Error! Contact name is too long!";
@@ -111,7 +90,7 @@ function Validation() {
         return false;
     }
 
-    if(!regex_email.test(email)) { // validation for  email 
+    if(!email_r.test(email)) { // validation for  email 
 
         error_message = "Error! Email address invalid!"
         error_div.innerHTML = error_message;
@@ -130,10 +109,10 @@ function Validation() {
 function addContact(contact) {
 
     const table = document.getElementById('contacts_table');  //getting table from html
-    let row = document.createElement('tr');
     let contact_name = document.createElement('td'); 
     let contact_mobile = document.createElement('td');
     let contact_email = document.createElement('td'); 
+    let row = document.createElement('tr');
 
     //getting contact info from local storage
     contact_name.innerHTML = contact.name; 
@@ -152,14 +131,14 @@ function addContact(contact) {
 function sortNames() {
 
     //https://www.w3schools.com/howto/howto_js_sort_list.asp
-    //https://codereview.stackexchange.com/questions/268091/sort-table-with-ascending-or-descending-order-without-a-library
-    let table, t_rows, switching, i, current_row, next_row, shouldSwitch;
-    table = document.getElementById("contacts_table");
+    //https://codereview.stackexchange.com/questions/268091/sort-table-with-ascending-or-descending-asc_order-without-a-library
+    let switching, i, current_row, next_row, shouldSwitch;
+    const table = document.getElementById("contacts_table");
     switching = true;
+    let t_rows = table.rows;
 
     while(switching) {
         switching = false; //no switching has been done
-        t_rows = table.rows;
 
         //looping through the table at i = 1 because table headers is at i = 0
         //comparing the current row with the next row
@@ -170,7 +149,7 @@ function sortNames() {
             current_row = t_rows[i].getElementsByTagName("td")[0]; 
             next_row = t_rows[i + 1].getElementsByTagName("td")[0]; 
 
-            if(order){ //sorting in ascending order
+            if(asc_order){ //sorting in ascending order
 
                 if(current_row.innerHTML.toLowerCase() > next_row.innerHTML.toLowerCase()) {
                     shouldSwitch = true;
@@ -188,52 +167,48 @@ function sortNames() {
 
         //if switching is true, switch the rows
         if(shouldSwitch) {
-            t_rows[i].parentNode.insertBefore(t_rows[i + 1], t_rows[i]);
+            t_rows[i].parentNode.insertBefore(t_rows[i + 1], t_rows[i]); //inserting the next row before the current row
             switching =  true;
 
         } else {
 
-            order = !order;
+            asc_order = !asc_order; //change the asc_order
             
         }
     }
 
 }
 
-//function to sort contact numbers in ascending and descending order
-function mobileSearch() {
+//function to search for contact mobile number
+//https://www.w3schools.com/howto/howto_js_filter_lists.asp
+function numberSearch() {
+    const search = document.getElementById('search_bar');
+    const filter = search.value.trim().toLowerCase();
+    const table = document.getElementById("contacts_table");
+    const contact_rows = table.getElementsByTagName('tr');
+    const error_message = document.getElementById('noResult');
 
-    let search = document.getElementById('search_bar').value; //getting search input from user
-    let contact_data = document.getElementsByTagName('tr'); //getting table rows from html
-    let error_message = "";
-    let user_found = 0; 
+    // Loop through all table rows, and hide those that don't match the search query
+    for (let i = 1; i < contact_rows.length; i++) { // Start at 1 to skip the table headers
+        const cells = contact_rows[i].getElementsByTagName("td");
+        const number_column = cells[1]; // Mobile number is in the second column
 
-    // looping through the table at i = 1 because table headers is at i = 0
-    for(let i = 1; i < contact_data.length; i++) {
-
-        //checking if the search input matches any of the table rows
-        if(contact_data[i].innerHTML.includes(search)) { 
-
-            contact_data[i].style.display = "";
-            user_found = 1; //row exists
-            document.getElementById('noResult').style.visibility = "hidden";
-
-        }  else { //if the search input doesn't match any of the table rows 
-
-            contact_data[i].style.display = "none"; 
-
-            if(user_found === 0) { //if no row exists
-
-                error_message = "Error: No Result.";
-                document.getElementById('noResult').style.visibility = "visible";
-                document.getElementById('noResult').innerHTML = error_message;
-
+            if (number_column) { // If the column exists
+                const mobileNumber = number_column.textContent.trim().toLowerCase(); // Get the mobile number
+                // If the mobile number matches the search query, display the row, otherwise hide it
+                if (mobileNumber.indexOf(filter) > -1) {
+                    contact_rows[i].style.display = "";
+                } else {
+                    contact_rows[i].style.display = "none";
+                }
             }
-        }
     }
 
-    user_found = 0;
+    // Show the "No Result" message if no matching rows are found
+    const display_number = Array.from(contact_rows).slice(1).some(row => row.style.display !== 'none');
+    error_message.style.visibility = display_number ? 'hidden' : 'visible';
+    error_message.innerHTML = 'Error! Invalid mobile number.';
 }
 
-
-
+// Add an event listener to start searching as soon as the user types
+document.getElementById('search_bar').addEventListener('input', numberSearch);
