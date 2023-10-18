@@ -186,7 +186,7 @@ function numberSearch() {
     const filter = search.value.trim().toLowerCase();
     const table = document.getElementById("contacts_table");
     const contact_rows = table.getElementsByTagName('tr');
-    const error_message = document.getElementById('noResult');
+    const error_message = document.getElementById('no_result');
 
     // Loop through all table rows, and hide those that don't match the search query
     for (let i = 1; i < contact_rows.length; i++) { // Start at 1 to skip the table headers
