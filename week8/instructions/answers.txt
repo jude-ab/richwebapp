@@ -1,0 +1,38 @@
+question 1) Explain what is meant by the stream abstraction. What is the relationship between 
+streams and the observer pattern?  What are streams useful for modeling and when 
+might you use them in Rich Web development?
+
+answer 1: 
+A stream represents data that is created and processed in an incremental manner. Stream abstraction makes working with sequences of data or events over time easier, 
+allowing real-time data handling without waiting for the entire dataset . Streams are similar to the observer pattern in which data is emitted by producers and responded to by consumers.
+Streams are used in web development for managing asynchronous activities, handling user interactions, converting data, and modeling real-time data sources. 
+They are also useful for event management. For rich web applications, they facilitate effective data flow and improve responsiveness.
+
+question 2) Assume that you are building an interface to an API in your Rich Web App. Describe in 
+detail how you could use the RxJS library to handle asynchronous network responses to 
+API requests. In your opinion, what are the benefits to using a streams library for 
+networking over, say, promises? And what do you think are the downsides? 
+
+answer 2: 
+Creating observables that represent API requests and responses is necessary when using the RxJS library to handle asynchronous network responses. 
+RxJS may be applied to complex data flows since it provides operators for transforming and manipulating these observables. Subscribing to observables allows you to control responses and make requests.
+Benefits include comprehensive error handling, construction of data pipelines, and flexibility in managing complex scenarios. RxJS can increase bundle size and add complexity 
+to straightforward scenarios. Depending on the complexity of the project and how well-versed you are in the library, you can choose between promises and RxJS.
+
+question 3) Consider three asynchronous tasks, A,B & C. What are the consequences of these 
+functions sharing global state? What is a good practice to alleviate any problems 
+associated with this? 
+
+answer 3: 
+Asynchronous tasks A, B, and C that share a global state run the risk of creating race conditions, corrupting data, and less maintainable code. 
+
+Best practices to help resolve these problems:
+
+- Prioritise local scope for variables.
+- To manage the execution and sequencing of asynchronous tasks, use Promises or async/await.
+- Use appropriate synchronization techniques for distributing state between tasks.
+- Code should be arranged into modules so that only relevant parts are exported and encapsulated.
+- Encourage functional programming techniques. 
+- Unit testing and isolate state during testing with the use of mocking techniques.
+
+These procedures help to prevent unexpected behavior, increase the maintainability of the code, and make asynchronous tasks easier to test.
