@@ -7,10 +7,12 @@ const minutesInput = document.getElementById('minutes');
 const secondsInput = document.getElementById('seconds');
 const timerDisplay = document.getElementById('timer-display');
 
+// Pad a number with a leading zero if it is less than 10
 function pad(number) {
   return number < 10 ? '0' + number : number;
 }
 
+// Calculate the time left until the end time
 function calculateTimeLeft(endTime) {
   const now = new Date().getTime();
   const timeLeft = endTime - now;
@@ -27,11 +29,12 @@ function calculateTimeLeft(endTime) {
   };
 }
 
-let countdownSubscription; // Store the countdown subscription
+let countdownSubscription; //Keep track of the subscription to unsubscribe from it later
 let endTime;
 
+// Subscribe to the start button click event
 rxjs.fromEvent(startButton, 'click').subscribe(() => {
-  // When button is clicked, calculate the end time based on the input
+  // Calculate the end time in milliseconds
   const totalTimeInSeconds =
     Number(hoursInput.value) * 60 * 60 +
     Number(minutesInput.value) * 60 +
@@ -40,19 +43,20 @@ rxjs.fromEvent(startButton, 'click').subscribe(() => {
   endTime = new Date().getTime() + totalTimeInSeconds * 1000;
 
   if (countdownSubscription) {
-    countdownSubscription.unsubscribe(); // Unsubscribe from the previous subscription if it exists
+    countdownSubscription.unsubscribe(); //Unsubscribe from the previous subscription if it exists
   }
 
+  // Create an observable that emits the time left every second
   countdownSubscription = rxjs.interval(1000).pipe(
     rxjs.operators.map(() => calculateTimeLeft(endTime)),
-    rxjs.operators.takeWhile(time => time.timeLeft > 0, true) // Include the last emission when the timeLeft is 0
+    rxjs.operators.takeWhile(time => time.timeLeft > 0, true) //Include the last emission when the timeLeft is 0
   ).subscribe({
     next: ({ hours, minutes, seconds }) => {
       timerDisplay.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
     },
     complete: () => {
       timerDisplay.textContent = "00:00:00";
-      alert("TIME IS UP"); // Show an alert or update the display to indicate the countdown has finished.
+      alert("TIME IS UP"); 
     }
   });
 });
