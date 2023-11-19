@@ -1,113 +1,107 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const { fromEvent } = rxjs;
-  const { map, filter } = rxjs.operators;
+    const { fromEvent } = rxjs;
+    const { map, filter } = rxjs.operators;
 
-  const notesContainer = document.getElementById("notes-container");
-  const noteInput = document.getElementById("note-input");
-  const colourList = document.getElementById("colour-list");
+    const notesContainer = document.getElementById("notes-container");
+    const input = document.getElementById("note-input");
+    const colour_list = document.getElementById("colour-list");
 
-  class Note {
-      constructor(text, color, parent = null) {
-          this.text = text;
-          this.color = color;
-          this.parent = parent;
-          this.children = [];
-      }
-  }
+    const notes = []; // Store notes in an array
 
-  //Create an observable from the add note button click event
-  const addNoteButtonClick$ = fromEvent(document.getElementById("add-note-button"), "click");
-  const editButtonClick$ = fromEvent(notesContainer, "click").pipe(
-      filter((event) => event.target.classList.contains("Edit"))
-  );
-  const deleteButtonClick$ = fromEvent(notesContainer, "click").pipe(
-      filter((event) => event.target.classList.contains("Delete"))
-  );
+    class Note extends HTMLElement {
+        constructor(text, color, parent = null) {
+            super(); //always call super first in constructor
+            this.text = text;
+            this.color = color;
+            this.parent = parent; // Store parent note
+            this.child_notes = []; // Store child notes in an array
+            this.attachShadow({ mode: "open" }); // Attach a shadow root to the element. 
+            this.render();// Render the element’s template
+        }
 
-  //Subscribe to add note button click event
-  addNoteButtonClick$.subscribe(() => addNote());
+        //render the element’s template in its shadow root using DOM methods.
+        render() {
+            this.shadowRoot.innerHTML = `
+                <div class="notes" style="background-color: ${this.color}">
+                    <p>${this.text}</p>
+                    <div class="actions">
+                        <button class="Edit">Edit</button>
+                        <button class="Delete">Delete</button>
+                    </div>
+                </div>
+            `;
 
-  //Subscribe to edit note button click event
-  editButtonClick$.subscribe((event) => {
-      const noteContent = event.target.parentElement.parentElement.querySelector("p");
-      editNoteContent(noteContent);
-  });
+            //references to the edit and delete buttons in the shadow DOM
+            const edit_button = this.shadowRoot.querySelector(".Edit"); 
+            const delete_button = this.shadowRoot.querySelector(".Delete");
 
-  //add a new note
-  function addNote() {
-      const noteText = noteInput.value.trim();
-      if (noteText === "") return;
+            //event listeners to the edit and delete buttons
+            edit_button.addEventListener("click", () => this.edit_content());
+            delete_button.addEventListener("click", () => this.delete_note_and_children());
+        }
 
-      const selectColour = colourList.value; 
+        edit_content() {
+            const new_content = prompt("Edit note here", this.text);
+            if (new_content !== null) {
+                this.text = new_content;
+                this.render();
+            }
+        }
 
-      const note = new Note(noteText, selectColour);
-      const noteElement = createNoteElement(note);
+        //delete the note and all its children
+        delete_note_and_children() {
+            if (this.parent) {
+                const index = this.parent.child_notes.indexOf(this);
+                if (index !== -1) {
+                    this.parent.child_notes.splice(index, 1);
+                }
+            }
 
-      notesContainer.appendChild(noteElement); 
+            // Remove the note from the DOM tree 
+            const container = this.parentElement;
+            if (container) {
+                container.removeChild(this);
+            }
 
-      noteInput.value = ""; 
-  }
+            // Recursively delete all children
+            this.child_notes.forEach((child) => child.delete_note_and_children());
+        }
+    }
 
-  //create a note element
-  function createNoteElement(note) {
-      const noteElement = document.createElement("div"); 
+    customElements.define("create-note", Note);
 
-      noteElement.className = "notes"; 
-      noteElement.style.backgroundColor = note.color; // Setting the background color of the note
+    //observable from the add note button click event
+    const addNoteButtonClick$ = fromEvent(document.getElementById("add-note-button"), "click");
+    const edit_buttonClick$ = fromEvent(notesContainer, "click").pipe(
+        filter((event) => event.target.classList.contains("Edit"))
+    );
+    const delete_buttonClick$ = fromEvent(notesContainer, "click").pipe(
+        filter((event) => event.target.classList.contains("Delete"))
+    );
 
-      //p element to hold the text
-      const noteContent = document.createElement("p");
-      noteContent.textContent = note.text;
+    // Subscribe
+    // Subscribe to add note button click event
+    addNoteButtonClick$.subscribe(() => addNote());
 
-      //Create a div element for note actions to edit and delete
-      const noteAction = document.createElement("div");
-      noteAction.className = "actions";
+    // Subscribe
+    // Subscribe to edit note button click event
+    edit_buttonClick$.subscribe((event) => {
+        const noteContent = event.target.parentElement.parentElement.querySelector("p");
+        edit_content(noteContent);
+    });
 
-      //Create edit button and adding click event listener
-      const editButton = document.createElement("button");
-      editButton.textContent = "Edit";
-      editButton.className = "Edit";
+    //new note
+    function addNote() {
+        const note_content = input.value.trim();
+        if (note_content === "") return;
 
-      //Create delete button and adding click event listener
-      const deleteButton = document.createElement("button");
-      deleteButton.textContent = "Delete";
-      deleteButton.className = "Delete";
+        const select_colour = colour_list.value;
 
-      //Add event listener for delete button click
-      deleteButton.addEventListener("click", () => {
-          deleteNoteAndChildren(note);
-      });
+        const note = new Note(note_content, select_colour);
+        notes.push(note); // Add the note to the array
+        notesContainer.appendChild(note);
 
-      //Append the edit and delete buttons to the note actions
-      noteAction.appendChild(editButton);
-      noteAction.appendChild(deleteButton);
+        input.value = "";
+    }
 
-      //Append the note text and note actions to the note element
-      noteElement.appendChild(noteContent);
-      noteElement.appendChild(noteAction);
-
-      return noteElement;
-  }
-
-  //edit note's content
-  function editNoteContent(noteContent) {
-      const newText = prompt("Edit note:", noteContent.textContent); // Prompting the user to edit the note
-      if (newText !== null) {
-          noteContent.textContent = newText;
-      }
-  }
-
-//delete note and its children
-function deleteNoteAndChildren(note) {
-  if (note.parent) {
-      const index = note.parent.children.indexOf(note);
-      if (index !== -1) {
-          note.parent.children.splice(index, 1);
-      }
-  }
-
-  // Recursively delete all children
-  const noteElement = notesContainer.querySelector(".notes"); 
-  notesContainer.removeChild(noteElement);
-  note.children.forEach((child) => deleteNoteAndChildren(child));
-}});
+});

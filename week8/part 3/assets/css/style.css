@@ -36,7 +36,6 @@ h2 {
 }
 
 .actions button.Edit {
-    background-color: #d46ed8;
     border-radius: 25px;
     float: right;
     position: absolute;
@@ -44,7 +43,6 @@ h2 {
 }
 
 .actions button.Delete {
-    background-color: #d46ed8;
     border-radius: 25px;
 }
 
