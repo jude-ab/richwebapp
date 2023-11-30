@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import CreateNote from "./components/createNote";
 import NotesList from "./components/notesList";
 import "./App.css";
-import axios from "axios";
 
 function App() {
   const [notes, setNotes] = useState([]);
