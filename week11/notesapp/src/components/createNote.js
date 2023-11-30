@@ -4,7 +4,7 @@ import axios from "axios";
 function CreateNote({ addNote }) {
   const [noteText, setNoteText] = useState("");
   const [noteColor, setNoteColor] = useState("#ffffff");
-  const [language, setLanguage] = useState("es"); // default target language is Spanish
+  const [language, setLanguage] = useState("en"); // default target language is English
   const [isTranslating, setIsTranslating] = useState(false);
 
   const translateText = async (text) => {
@@ -42,27 +42,34 @@ function CreateNote({ addNote }) {
 
   return (
     <div className="form">
-      <textarea
-        value={noteText}
-        onChange={(e) => setNoteText(e.target.value)}
-        placeholder="Write a note..."
-      />
-      <select value={language} onChange={(e) => setLanguage(e.target.value)}>
-        <option value="es">Spanish</option>
-        <option value="fr">French</option>
-        <option value="de">German</option>
-        {/* Add more options for languages */}
-      </select>
-      <select value={noteColor} onChange={(e) => setNoteColor(e.target.value)}>
-        <option value="#ffffff">White</option>
-        <option value="#fff4e3">Orange</option>
-        <option value="#d8ffd6">Green</option>
-        <option value="#ebd6ff">Purple</option>
-        <option value="#ffcccb">Pink</option>
-      </select>
-      <button onClick={handleSubmit} disabled={isTranslating}>
-        {isTranslating ? "Translating..." : "Add Note"}
-      </button>
+      <div className="note-input-container">
+        <textarea
+          value={noteText}
+          onChange={(e) => setNoteText(e.target.value)}
+          placeholder="Write a note..."
+        />
+      </div>
+      <div className="note-options-container">
+        <select value={language} onChange={(e) => setLanguage(e.target.value)}>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="en">English</option>
+        </select>
+        <select
+          value={noteColor}
+          onChange={(e) => setNoteColor(e.target.value)}
+        >
+          <option value="#ffffff">White</option>
+          <option value="#fff4e3">Orange</option>
+          <option value="#d8ffd6">Green</option>
+          <option value="#ebd6ff">Purple</option>
+          <option value="#ffcccb">Pink</option>
+        </select>
+        <button onClick={handleSubmit} disabled={isTranslating}>
+          {isTranslating ? "Translating..." : "Add Note"}
+        </button>
+      </div>
     </div>
   );
 }

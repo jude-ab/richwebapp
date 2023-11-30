@@ -30,7 +30,6 @@ function App() {
   return (
     <div className={`app ${theme}`}>
       {" "}
-      {/* Theme class applied here */}
       <h2>Notes App</h2>
       <div className="theme-selector">
         <label htmlFor="theme">Choose a theme:</label>
@@ -41,7 +40,6 @@ function App() {
         >
           <option value="light">Light</option>
           <option value="dark">Dark</option>
-          {/* Add more themes as needed */}
         </select>
       </div>
       <CreateNote addNote={addNote} />

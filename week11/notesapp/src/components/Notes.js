@@ -50,7 +50,10 @@ function Notes({ note, deleteNote, updateNote }) {
         </div>
       ) : (
         <>
-          <p className="note-text">{note.text}</p>
+          <p className="note-text" style={{ color: "black" }}>
+            {note.text}
+          </p>
+
           <div className="actions">
             <button
               className="note-delete-btn"
