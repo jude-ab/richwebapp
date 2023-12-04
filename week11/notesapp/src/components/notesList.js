@@ -4,6 +4,7 @@ import Notes from "./Notes";
 function NotesList({ notes, updateNote, deleteNote }) {
   const [search, setSearch] = useState("");
 
+  // Filter notes based on search text
   const filteredNotes = notes.filter((note) =>
     note.text.toLowerCase().includes(search.toLowerCase())
   );

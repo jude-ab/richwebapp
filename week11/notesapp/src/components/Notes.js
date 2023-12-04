@@ -5,8 +5,9 @@ function Notes({ note, updateNote, deleteNote }) {
   const [eText, setEText] = useState(note.text);
   const [eColor, setEColor] = useState(note.color);
 
-  const handleEdit = () => setIsEdit(true);
+  const handleEdit = () => setIsEdit(true); // Set isEdit to true when click Edit button
 
+  // Handle save note
   const handleSave = () => {
     updateNote(note.id, { text: eText, color: eColor });
     setIsEdit(false);

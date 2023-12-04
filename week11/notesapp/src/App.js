@@ -7,21 +7,25 @@ function App() {
   const [notes, setNotes] = useState([]);
   const [theme, setTheme] = useState("light"); // Theme state
 
+  // Set theme class to body
   useEffect(() => {
     document.body.className = theme;
   }, [theme]);
 
+  // Add note
   const addNote = (newNote) => {
-    setNotes([...notes, { ...newNote, id: Date.now() }]);
+    setNotes([...notes, { ...newNote, id: Date.now() }]); // Spread operator
   };
 
+  // Delete note
   const deleteNote = (id) => {
-    setNotes(notes.filter((note) => note.id !== id));
+    setNotes(notes.filter((note) => note.id !== id)); // Filter out note with id
   };
 
+  // Update note
   const updateNote = (id, updatedNote) => {
     setNotes(
-      notes.map((note) => (note.id === id ? { ...note, ...updatedNote } : note))
+      notes.map((note) => (note.id === id ? { ...note, ...updatedNote } : note)) // Spread operator
     );
   };
 

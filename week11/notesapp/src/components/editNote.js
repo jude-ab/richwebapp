@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 function EditNote({ noteEdit, NoteUpdate }) {
-  const [nText, setNText] = useState("");
+  const [nText, setNText] = useState(""); //
   const [noteColor, setNoteColor] = useState("#ffffff");
 
+  // Set note text and color to edit
   useEffect(() => {
     if (noteEdit) {
       setNText(noteEdit.text);
@@ -11,6 +12,7 @@ function EditNote({ noteEdit, NoteUpdate }) {
     }
   }, [noteEdit]);
 
+  // Handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
     NoteUpdate(noteEdit.id, { text: nText, color: noteColor });

@@ -4,9 +4,10 @@ import axios from "axios";
 function AddNote({ addNote }) {
   const [nText, setNText] = useState("");
   const [nColor, setNColor] = useState("#ffffff");
-  const [language, setLanguage] = useState("en"); // default target language is English
+  const [language, setLanguage] = useState("en"); // default language is English
   const [isTranslate, setIsTranslate] = useState(false);
 
+  // Translate text using Google Translate API
   const transText = async (text) => {
     setIsTranslate(true);
     try {
@@ -21,7 +22,7 @@ function AddNote({ addNote }) {
           },
         }
       );
-      setIsTranslate(false);
+      setIsTranslate(false); // Set isTranslate to false after getting response
       return response.data.data.translations[0].translatedText;
     } catch (error) {
       setIsTranslate(false);
@@ -31,6 +32,7 @@ function AddNote({ addNote }) {
     }
   };
 
+  // Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!nText) return;
