@@ -36,7 +36,7 @@ h2 {
   width: 100%;
 }
 
-/* Style for action buttons like Save and Cancel */
+/* Style for action buttons such as Save and Cancel */
 .actions {
   display: flex;
   justify-content: center;
@@ -105,8 +105,7 @@ h2 {
 }
 
 /*  in edit mode */
-.note-save-btn,
-.note-cancel-btn {
+.note-save-btn {
   background-color: #d46ed8;
   color: #fff;
   border: none;

@@ -1,39 +1,33 @@
 import React, { useState } from "react";
 
-function Notes({ note, deleteNote, updateNote }) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedText, setEditedText] = useState(note.text);
-  const [editedColor, setEditedColor] = useState(note.color);
+function Notes({ note, updateNote, deleteNote }) {
+  const [isEdit, setIsEdit] = useState(false);
+  const [eText, setEText] = useState(note.text);
+  const [eColor, setEColor] = useState(note.color);
 
-  const handleEdit = () => setIsEditing(true);
-
-  const handleCancel = () => {
-    setIsEditing(false);
-    setEditedText(note.text);
-    setEditedColor(note.color);
-  };
+  const handleEdit = () => setIsEdit(true);
 
   const handleSave = () => {
-    updateNote(note.id, { text: editedText, color: editedColor });
-    setIsEditing(false);
+    updateNote(note.id, { text: eText, color: eColor });
+    setIsEdit(false);
   };
 
   return (
     <div
-      className={`note ${isEditing ? "editing" : ""}`}
+      className={`note ${isEdit ? "editing" : ""}`}
       style={{ backgroundColor: note.color }}
     >
-      {isEditing ? (
+      {isEdit ? (
         <div className="actions">
           <textarea
             className="note-textarea"
-            value={editedText}
-            onChange={(e) => setEditedText(e.target.value)}
+            value={eText}
+            onChange={(e) => setEText(e.target.value)}
           />
           <select
             className="note-color-select"
-            value={editedColor}
-            onChange={(e) => setEditedColor(e.target.value)}
+            value={eColor}
+            onChange={(e) => setEColor(e.target.value)}
           >
             <option value="#ffffff">White</option>
             <option value="#fff4e3">Orange</option>
@@ -43,9 +37,6 @@ function Notes({ note, deleteNote, updateNote }) {
           </select>
           <button className="note-save-btn" onClick={handleSave}>
             Save
-          </button>
-          <button className="note-cancel-btn" onClick={handleCancel}>
-            Cancel
           </button>
         </div>
       ) : (

@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function CreateNote({ addNote }) {
-  const [noteText, setNoteText] = useState("");
-  const [noteColor, setNoteColor] = useState("#ffffff");
+function AddNote({ addNote }) {
+  const [nText, setNText] = useState("");
+  const [nColor, setNColor] = useState("#ffffff");
   const [language, setLanguage] = useState("en"); // default target language is English
-  const [isTranslating, setIsTranslating] = useState(false);
+  const [isTranslate, setIsTranslate] = useState(false);
 
-  const translateText = async (text) => {
-    setIsTranslating(true);
+  const transText = async (text) => {
+    setIsTranslate(true);
     try {
       const response = await axios.post(
         `https://translation.googleapis.com/language/translate/v2`,
@@ -21,11 +21,11 @@ function CreateNote({ addNote }) {
           },
         }
       );
-      setIsTranslating(false);
+      setIsTranslate(false);
       return response.data.data.translations[0].translatedText;
     } catch (error) {
-      setIsTranslating(false);
-      console.error("Error translating text: ", error);
+      setIsTranslate(false);
+      console.error("Error translate text: ", error);
       alert("Translation failed");
       return ""; // Return empty string in case of error
     }
@@ -33,19 +33,19 @@ function CreateNote({ addNote }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!noteText) return;
+    if (!nText) return;
 
-    const translatedText = await translateText(noteText);
-    addNote({ text: translatedText, color: noteColor });
-    setNoteText(""); // Reset text area after submitting
+    const translatedText = await transText(nText);
+    addNote({ text: translatedText, color: nColor });
+    setNText(""); // Reset text area after submitting
   };
 
   return (
     <div className="form">
       <div className="note-input-container">
         <textarea
-          value={noteText}
-          onChange={(e) => setNoteText(e.target.value)}
+          value={nText}
+          onChange={(e) => setNText(e.target.value)}
           placeholder="Write a note..."
         />
       </div>
@@ -56,22 +56,19 @@ function CreateNote({ addNote }) {
           <option value="de">German</option>
           <option value="en">English</option>
         </select>
-        <select
-          value={noteColor}
-          onChange={(e) => setNoteColor(e.target.value)}
-        >
+        <select value={nColor} onChange={(e) => setNColor(e.target.value)}>
           <option value="#ffffff">White</option>
           <option value="#fff4e3">Orange</option>
           <option value="#d8ffd6">Green</option>
           <option value="#ebd6ff">Purple</option>
           <option value="#ffcccb">Pink</option>
         </select>
-        <button onClick={handleSubmit} disabled={isTranslating}>
-          {isTranslating ? "Translating..." : "Add Note"}
+        <button onClick={handleSubmit} disabled={isTranslate}>
+          {isTranslate ? "Translating..." : "Add Note"}
         </button>
       </div>
     </div>
   );
 }
 
-export default CreateNote;
+export default AddNote;

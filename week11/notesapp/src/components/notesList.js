@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Notes from "./Notes";
 
-function NotesList({ notes, deleteNote, updateNote }) {
-  const [searchTerm, setSearchTerm] = useState("");
+function NotesList({ notes, updateNote, deleteNote }) {
+  const [search, setSearch] = useState("");
 
   const filteredNotes = notes.filter((note) =>
-    note.text.toLowerCase().includes(searchTerm.toLowerCase())
+    note.text.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -13,8 +13,8 @@ function NotesList({ notes, deleteNote, updateNote }) {
       <input
         type="text"
         placeholder="Search notes..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
       />
       {filteredNotes.map((note) => (
         <Notes

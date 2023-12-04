@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 
-function EditNote({ noteToEdit, updateNote }) {
-  const [noteText, setNoteText] = useState("");
+function EditNote({ noteEdit, NoteUpdate }) {
+  const [nText, setNText] = useState("");
   const [noteColor, setNoteColor] = useState("#ffffff");
 
   useEffect(() => {
-    if (noteToEdit) {
-      setNoteText(noteToEdit.text);
-      setNoteColor(noteToEdit.color);
+    if (noteEdit) {
+      setNText(noteEdit.text);
+      setNoteColor(noteEdit.color);
     }
-  }, [noteToEdit]);
+  }, [noteEdit]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateNote(noteToEdit.id, { text: noteText, color: noteColor });
+    NoteUpdate(noteEdit.id, { text: nText, color: noteColor });
   };
 
   return (
@@ -21,8 +21,8 @@ function EditNote({ noteToEdit, updateNote }) {
       <input
         type="text"
         className="note-input"
-        value={noteText}
-        onChange={(e) => setNoteText(e.target.value)}
+        value={nText}
+        onChange={(e) => setNText(e.target.value)}
       />
       <select
         className="note-select"

@@ -1,6 +1,5 @@
-// App.js
 import React, { useState, useEffect } from "react";
-import CreateNote from "./components/createNote";
+import CreateNote from "./components/AddNote";
 import NotesList from "./components/notesList";
 import "./App.css";
 
@@ -9,9 +8,8 @@ function App() {
   const [theme, setTheme] = useState("light"); // Theme state
 
   useEffect(() => {
-    // Update the class on the body tag
     document.body.className = theme;
-  }, [theme]); // This effect runs when the theme state changes
+  }, [theme]);
 
   const addNote = (newNote) => {
     setNotes([...notes, { ...newNote, id: Date.now() }]);
